@@ -1,15 +1,23 @@
 {
   "dev": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-elastik-dev-b56e1-authRole",
-      "UnauthRoleArn": "arn:aws:iam::485496109928:role/amplify-elastik-dev-b56e1-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::485496109928:role/amplify-elastik-dev-b56e1-authRole",
+      "AuthRoleName": "amplify-elastikapp-dev-379e4-authRole",
+      "UnauthRoleArn": "arn:aws:iam::485496109928:role/amplify-elastikapp-dev-379e4-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::485496109928:role/amplify-elastikapp-dev-379e4-authRole",
       "Region": "ap-southeast-2",
-      "DeploymentBucketName": "amplify-elastik-dev-b56e1-deployment",
-      "UnauthRoleName": "amplify-elastik-dev-b56e1-unauthRole",
-      "StackName": "amplify-elastik-dev-b56e1",
-      "StackId": "arn:aws:cloudformation:ap-southeast-2:485496109928:stack/amplify-elastik-dev-b56e1/02767df0-0cb1-11f0-8bf7-0699bf75de97",
-      "AmplifyAppId": "d3ko1ykr4e9dv"
+      "DeploymentBucketName": "amplify-elastikapp-dev-379e4-deployment",
+      "UnauthRoleName": "amplify-elastikapp-dev-379e4-unauthRole",
+      "StackName": "amplify-elastikapp-dev-379e4",
+      "StackId": "arn:aws:cloudformation:ap-southeast-2:485496109928:stack/amplify-elastikapp-dev-379e4/7d5dbd60-0cb3-11f0-ad32-024b02c4f43d",
+      "AmplifyAppId": "d1zn8wpn54q8g5"
+    },
+    "categories": {
+      "hosting": {
+        "amplifyhosting": {
+          "appId": "d1zn8wpn54q8g5",
+          "type": "cicd"
+        }
+      }
     }
   }
 }
