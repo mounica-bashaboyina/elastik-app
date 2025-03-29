@@ -10,6 +10,14 @@
       "StackName": "amplify-elastik-dev-9aa98",
       "StackId": "arn:aws:cloudformation:ap-southeast-2:485496109928:stack/amplify-elastik-dev-9aa98/9629b580-0c9d-11f0-8bf7-0699bf75de97",
       "AmplifyAppId": "d14f6bd81g62ty"
+    },
+    "categories": {
+      "hosting": {
+        "amplifyhosting": {
+          "appId": "d14f6bd81g62ty",
+          "type": "manual"
+        }
+      }
     }
   }
 }
