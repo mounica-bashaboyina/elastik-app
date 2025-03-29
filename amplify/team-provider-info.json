@@ -17,6 +17,9 @@
           "appId": "d14f6bd81g62ty",
           "type": "manual"
         }
+      },
+      "auth": {
+        "elastik3108766c": {}
       }
     }
   }
