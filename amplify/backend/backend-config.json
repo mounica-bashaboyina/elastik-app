@@ -1,28 +1,5 @@
 {
-  "api": {
-    "student": {
-      "dependsOn": [
-        {
-          "attributes": [
-            "Name",
-            "Arn"
-          ],
-          "category": "function",
-          "resourceName": "getProfile"
-        },
-        {
-          "attributes": [
-            "Name",
-            "Arn"
-          ],
-          "category": "function",
-          "resourceName": "getStudents"
-        }
-      ],
-      "providerPlugin": "awscloudformation",
-      "service": "API Gateway"
-    }
-  },
+  "api": {},
   "auth": {
     "elsappfcd004d2": {
       "customAuth": false,
@@ -50,6 +27,25 @@
     }
   },
   "function": {
+    "elkstudentfunction": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributeEnvMap": {
+            "Arn": "TABLE_ARN",
+            "Name": "TABLE_NAME"
+          },
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "storage",
+          "resourceName": "student"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
     "getProfile": {
       "build": true,
       "dependsOn": [
@@ -97,6 +93,22 @@
     }
   },
   "parameters": {
+    "AMPLIFY_function_elkstudentfunction_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "elkstudentfunction"
+        }
+      ]
+    },
+    "AMPLIFY_function_elkstudentfunction_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "elkstudentfunction"
+        }
+      ]
+    },
     "AMPLIFY_function_getProfile_deploymentBucketName": {
       "usedBy": [
         {

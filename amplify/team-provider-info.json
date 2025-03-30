@@ -25,17 +25,18 @@
       "function": {
         "getProfile": {
           "deploymentBucketName": "amplify-elsapp-dev-5380a-deployment",
-          "s3Key": "amplify-builds/getProfile-2f513062706d5a43414a-build.zip"
+          "s3Key": "amplify-builds/getProfile-5557356d616758734972-build.zip"
         },
         "getStudents": {
           "deploymentBucketName": "amplify-elsapp-dev-5380a-deployment",
-          "s3Key": "amplify-builds/getStudents-3031686d7a686a702b37-build.zip"
+          "s3Key": "amplify-builds/getStudents-476a6a69424342764b64-build.zip"
+        },
+        "elkstudentfunction": {
+          "deploymentBucketName": "amplify-elsapp-dev-5380a-deployment",
+          "s3Key": "amplify-builds/elkstudentfunction-766e31366c714463364b-build.zip"
         }
       },
       "storage": {
-        "student": {}
-      },
-      "api": {
         "student": {}
       }
     }
