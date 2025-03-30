@@ -25,11 +25,11 @@ const columns = [
   },
   {
     Header: "School Coordinator",
-    accessor: "schoolCoordinator",
+    accessor: "coordinator",
   },
   {
     Header: "School Teacher",
-    accessor: "schoolTeacher",
+    accessor: "teacher",
   },
 ];
 
@@ -39,7 +39,7 @@ const StudentTable = () => {
   const [totalCount, setTotalCount] = useState(0); // To store the total count of students
   const [pageIndex, setPageIndex] = useState(0);
   const [pageSize] = useState(20); // Page size
-  
+
   useEffect(() => {
     fetchData(pageIndex, pageSize);
   }, [pageIndex, pageSize]);
@@ -52,6 +52,8 @@ const StudentTable = () => {
         query: `query ListStudentDevs($limit: Int, $nextToken: String) {
           listStudentDevs(limit: $limit, nextToken: $nextToken) {
             items {
+              id
+              email
               firstName
               lastName
               dob
@@ -78,24 +80,19 @@ const StudentTable = () => {
     setLoading(false);
   };
 
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    rows,
-    prepareRow,
-  } = useTable(
-    {
-      columns,
-      data: students,
-      initialState: {
-        pageIndex: 0,
-        pageSize: 20,
+  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
+    useTable(
+      {
+        columns,
+        data: students,
+        initialState: {
+          pageIndex: 0,
+          pageSize: 20,
+        },
       },
-    },
-    useSortBy,
-    usePagination
-  );
+      useSortBy,
+      usePagination
+    );
 
   const pageCount = Math.ceil(totalCount / pageSize); // Total pages
 
@@ -110,7 +107,9 @@ const StudentTable = () => {
               {headerGroups.map((headerGroup) => (
                 <tr {...headerGroup.getHeaderGroupProps()}>
                   {headerGroup.headers.map((column) => (
-                    <th {...column.getHeaderProps(column.getSortByToggleProps())}>
+                    <th
+                      {...column.getHeaderProps(column.getSortByToggleProps())}
+                    >
                       {column.render("Header")}
                       <span>
                         {column.isSorted
@@ -130,7 +129,9 @@ const StudentTable = () => {
                 return (
                   <tr {...row.getRowProps()}>
                     {row.cells.map((cell) => {
-                      return <td {...cell.getCellProps()}>{cell.render("Cell")}</td>;
+                      return (
+                        <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
+                      );
                     })}
                   </tr>
                 );
@@ -139,7 +140,10 @@ const StudentTable = () => {
           </table>
 
           <div>
-            <button onClick={() => setPageIndex(pageIndex - 1)} disabled={pageIndex === 0}>
+            <button
+              onClick={() => setPageIndex(pageIndex - 1)}
+              disabled={pageIndex === 0}
+            >
               Previous
             </button>
             <span>
