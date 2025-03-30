@@ -1,17 +1,22 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import awsconfig from './aws-exports';
-import { Amplify } from 'aws-amplify';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import awsconfig from "./aws-exports";
+import { Authenticator } from "@aws-amplify/ui-react";
+import { Amplify } from "aws-amplify";
+
+import "@aws-amplify/ui-react/styles.css";
 
 Amplify.configure(awsconfig);
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <App />
+    <Authenticator>
+      <App />
+    </Authenticator>
   </React.StrictMode>
 );
 
