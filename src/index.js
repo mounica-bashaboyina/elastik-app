@@ -8,6 +8,7 @@ import { Authenticator } from "@aws-amplify/ui-react";
 import { Amplify } from "aws-amplify";
 
 import "@aws-amplify/ui-react/styles.css";
+import {  AuthProvider } from "./AuthContext";
 
 Amplify.configure(awsconfig);
 
@@ -15,7 +16,9 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <Authenticator>
+      <AuthProvider>
         <App />
+      </AuthProvider>
     </Authenticator>
   </React.StrictMode>
 );
