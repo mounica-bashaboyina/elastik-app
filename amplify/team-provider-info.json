@@ -33,7 +33,7 @@
         },
         "elkstudentfunction": {
           "deploymentBucketName": "amplify-elsapp-dev-5380a-deployment",
-          "s3Key": "amplify-builds/elkstudentfunction-766e31366c714463364b-build.zip"
+          "s3Key": "amplify-builds/elkstudentfunction-6c324b44504143454465-build.zip"
         }
       },
       "storage": {

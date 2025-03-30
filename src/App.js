@@ -2,6 +2,7 @@ import { useAuthenticator } from "@aws-amplify/ui-react";
 import React from "react";
 
 import "./App.css";
+import StudentTable from "./StudentTable";
 
 function App({ authToken }) {
   console.log("Auth Token:", authToken);
@@ -11,6 +12,7 @@ function App({ authToken }) {
     <div className="App">
       <h1>{user?.signInDetails?.loginId}'s Dashboard</h1>
       <button onClick={signOut}>Sign out</button>
+      <StudentTable />
     </div>
   );
 }
