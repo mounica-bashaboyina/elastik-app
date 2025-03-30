@@ -9,7 +9,8 @@
       "UnauthRoleName": "amplify-elsapp-dev-5380a-unauthRole",
       "StackName": "amplify-elsapp-dev-5380a",
       "StackId": "arn:aws:cloudformation:ap-southeast-2:485496109928:stack/amplify-elsapp-dev-5380a/fcd6d900-0d0d-11f0-9592-068f35989423",
-      "AmplifyAppId": "d3nnutv8kn83vk"
+      "AmplifyAppId": "d3nnutv8kn83vk",
+      "APIGatewayAuthURL": "https://s3.amazonaws.com/amplify-elsapp-dev-5380a-deployment/amplify-cfn-templates/api/APIGatewayAuthStack.json"
     },
     "categories": {
       "hosting": {
@@ -20,6 +21,22 @@
       },
       "auth": {
         "elsappfcd004d2": {}
+      },
+      "function": {
+        "getProfile": {
+          "deploymentBucketName": "amplify-elsapp-dev-5380a-deployment",
+          "s3Key": "amplify-builds/getProfile-2f513062706d5a43414a-build.zip"
+        },
+        "getStudents": {
+          "deploymentBucketName": "amplify-elsapp-dev-5380a-deployment",
+          "s3Key": "amplify-builds/getStudents-3031686d7a686a702b37-build.zip"
+        }
+      },
+      "storage": {
+        "student": {}
+      },
+      "api": {
+        "student": {}
       }
     }
   }

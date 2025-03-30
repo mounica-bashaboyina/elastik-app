@@ -1,4 +1,28 @@
 {
+  "api": {
+    "student": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "getProfile"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "getStudents"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "API Gateway"
+    }
+  },
   "auth": {
     "elsappfcd004d2": {
       "customAuth": false,
@@ -25,6 +49,46 @@
       "service": "Cognito"
     }
   },
+  "function": {
+    "getProfile": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributeEnvMap": {
+            "Arn": "TABLE_ARN",
+            "Name": "TABLE_NAME"
+          },
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "storage",
+          "resourceName": "student"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "getStudents": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributeEnvMap": {
+            "Arn": "TABLE_ARN",
+            "Name": "TABLE_NAME"
+          },
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "storage",
+          "resourceName": "student"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    }
+  },
   "hosting": {
     "amplifyhosting": {
       "lastPushTimeStamp": "2025-03-30T02:25:52.878Z",
@@ -33,6 +97,38 @@
     }
   },
   "parameters": {
+    "AMPLIFY_function_getProfile_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "getProfile"
+        }
+      ]
+    },
+    "AMPLIFY_function_getProfile_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "getProfile"
+        }
+      ]
+    },
+    "AMPLIFY_function_getStudents_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "getStudents"
+        }
+      ]
+    },
+    "AMPLIFY_function_getStudents_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "getStudents"
+        }
+      ]
+    },
     "AMPLIFY_hosting_amplifyhosting_appId": {
       "usedBy": [
         {
@@ -48,6 +144,12 @@
           "resourceName": "amplifyhosting"
         }
       ]
+    }
+  },
+  "storage": {
+    "student": {
+      "providerPlugin": "awscloudformation",
+      "service": "DynamoDB"
     }
   }
 }
