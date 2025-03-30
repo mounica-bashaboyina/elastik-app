@@ -1,19 +1,22 @@
 {
   "dev": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-elastikapp-dev-5f941-authRole",
-      "UnauthRoleArn": "arn:aws:iam::485496109928:role/amplify-elastikapp-dev-5f941-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::485496109928:role/amplify-elastikapp-dev-5f941-authRole",
+      "AuthRoleName": "amplify-elsapp-dev-5380a-authRole",
+      "UnauthRoleArn": "arn:aws:iam::485496109928:role/amplify-elsapp-dev-5380a-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::485496109928:role/amplify-elsapp-dev-5380a-authRole",
       "Region": "ap-southeast-2",
-      "DeploymentBucketName": "amplify-elastikapp-dev-5f941-deployment",
-      "UnauthRoleName": "amplify-elastikapp-dev-5f941-unauthRole",
-      "StackName": "amplify-elastikapp-dev-5f941",
-      "StackId": "arn:aws:cloudformation:ap-southeast-2:485496109928:stack/amplify-elastikapp-dev-5f941/8d7a52a0-0cc5-11f0-9ab7-0a574ffeb81b",
-      "AmplifyAppId": "d3e8yzfjb3n26g"
+      "DeploymentBucketName": "amplify-elsapp-dev-5380a-deployment",
+      "UnauthRoleName": "amplify-elsapp-dev-5380a-unauthRole",
+      "StackName": "amplify-elsapp-dev-5380a",
+      "StackId": "arn:aws:cloudformation:ap-southeast-2:485496109928:stack/amplify-elsapp-dev-5380a/fcd6d900-0d0d-11f0-9592-068f35989423",
+      "AmplifyAppId": "d3nnutv8kn83vk"
     },
     "categories": {
-      "auth": {
-        "elastikapp269fa667": {}
+      "hosting": {
+        "amplifyhosting": {
+          "appId": "d3nnutv8kn83vk",
+          "type": "cicd"
+        }
       }
     }
   }
