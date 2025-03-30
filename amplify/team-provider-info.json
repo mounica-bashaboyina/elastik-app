@@ -17,6 +17,9 @@
           "appId": "d3nnutv8kn83vk",
           "type": "cicd"
         }
+      },
+      "auth": {
+        "elsappfcd004d2": {}
       }
     }
   }
