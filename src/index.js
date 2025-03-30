@@ -15,7 +15,7 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <Authenticator>
-      <App />
+        <App />
     </Authenticator>
   </React.StrictMode>
 );

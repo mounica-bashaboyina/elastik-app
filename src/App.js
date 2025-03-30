@@ -1,27 +1,15 @@
-import logo from './logo.svg';
 import './App.css';
 
-import { withAuthenticator } from '@aws-amplify/ui-react';
+import { useAuthenticator } from '@aws-amplify/ui-react';
 
 function App() {
+  const { user, signOut } = useAuthenticator();
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-         Mounica Bashaboyina-test - deploymemnt check
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+       <h1>{user?.signInDetails?.loginId}'s Dashboard</h1>
+      <button onClick={signOut}>Sign out</button>
     </div>
   );
 }
 
-export default withAuthenticator(App);
+export default App;
