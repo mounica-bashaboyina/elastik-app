@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useTable, useSortBy } from "react-table";
 import axios from "axios";
-import { AuthContext } from "./AuthContext";
+import { AuthContext } from "../AuthContext";
 
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -10,6 +10,8 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import { TableFooter } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const columns = [
   { Header: "Email", accessor: "email" },
@@ -24,15 +26,16 @@ const columns = [
 const URL =
   "https://44kaila63nhyxf267maw6iacuq.appsync-api.ap-southeast-2.amazonaws.com/graphql";
 
-const StudentTable = () => {
+const StudentTable = ({ isMiniTable = false }) => {
   const { authToken } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState(false);
   const [nextToken, setNextToken] = useState(null);
   const [prevTokens, setPrevTokens] = useState([]);
   const [page, setPage] = useState(1);
-  const [pageSize] = useState(10);
+  const [pageSize] = useState(isMiniTable ? 5 : 10);
 
   useEffect(() => {
     fetchData(null);
@@ -151,17 +154,24 @@ const StudentTable = () => {
               })}
             </TableBody>
           )}
+          {isMiniTable && (
+            <TableFooter onClick={() => navigate("/students")}>
+              View More
+            </TableFooter>
+          )}
         </Table>
 
-        <div>
-          <button onClick={handlePrevious} disabled={page === 1}>
-            Previous
-          </button>
-          <span> Page {page} </span>
-          <button onClick={handleNext} disabled={!nextToken}>
-            Next
-          </button>
-        </div>
+        {!isMiniTable && (
+          <div>
+            <button onClick={handlePrevious} disabled={page === 1}>
+              Previous
+            </button>
+            <span> Page {page} </span>
+            <button onClick={handleNext} disabled={!nextToken}>
+              Next
+            </button>
+          </div>
+        )}
       </TableContainer>
     </div>
   );

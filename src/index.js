@@ -6,19 +6,22 @@ import reportWebVitals from "./reportWebVitals";
 import awsconfig from "./aws-exports";
 import { Authenticator } from "@aws-amplify/ui-react";
 import { Amplify } from "aws-amplify";
+import { BrowserRouter } from "react-router-dom";
 
 import "@aws-amplify/ui-react/styles.css";
-import {  AuthProvider } from "./AuthContext";
+import { AuthProvider } from "./AuthContext";
 
 Amplify.configure(awsconfig);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-    <Authenticator>
-      <AuthProvider>
-        <App />
-      </AuthProvider>
-    </Authenticator>
+  <BrowserRouter>
+  <Authenticator>
+    <AuthProvider>
+      <App />
+    </AuthProvider>
+  </Authenticator>
+  </BrowserRouter>
 );
 
 // If you want to start measuring performance in your app, pass a function
