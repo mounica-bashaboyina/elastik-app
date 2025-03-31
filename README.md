@@ -29,9 +29,9 @@ amplify publish   # Initiate deployment
 
 This project was created using `create-react-app`. The backend setup followed these steps:
 
-1. **IAM User Setup**: Created an IAM user and configured AWS CLI with the required policies.
+1. **IAM User Setup**: Created an IAM user and configured it with the required policies.
 2. **Installed AWS CLI & Amplify**: Ensured necessary dependencies were installed.
-3. **Configured Cognito User Pool**: Set up Cognito for user authentication.
+3. **Configured Cognito User Pool**: Set up Cognito user pool for user authentication.
 4. **Initialized Amplify**: Used `amplify init` to create the Amplify project structure.
 5. **Added Authentication**: `amplify add auth` to enable authentication.
 6. **Created API**:
