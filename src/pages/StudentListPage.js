@@ -1,8 +1,3 @@
-import React, { useContext, useState, useEffect } from "react";
-import { useTable, useSortBy } from "react-table";
-import axios from "axios";
-import { AuthContext } from "../AuthContext";
-
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -10,8 +5,22 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { TableFooter } from "@mui/material";
+import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import Box from "@mui/material/Box";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import Link from "@mui/material/Link";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import React, { useContext, useState, useEffect } from "react";
+import { useTable, useSortBy } from "react-table";
+
+import { AuthContext } from "../AuthContext";
+import Pagination from "../components/Pagination";
+import Loading from "../components/Loading";
+
+const API_URL =
+  "https://44kaila63nhyxf267maw6iacuq.appsync-api.ap-southeast-2.amazonaws.com/graphql";
 
 const columns = [
   { Header: "Email", accessor: "email" },
@@ -23,31 +32,7 @@ const columns = [
   { Header: "School Teacher", accessor: "teacher" },
 ];
 
-const URL =
-  "https://44kaila63nhyxf267maw6iacuq.appsync-api.ap-southeast-2.amazonaws.com/graphql";
-
-const StudentTable = ({ isMiniTable = false }) => {
-  const { authToken } = useContext(AuthContext);
-  const navigate = useNavigate();
-
-  const [students, setStudents] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [nextToken, setNextToken] = useState(null);
-  const [prevTokens, setPrevTokens] = useState([]);
-  const [page, setPage] = useState(1);
-  const [pageSize] = useState(isMiniTable ? 5 : 10);
-
-  useEffect(() => {
-    fetchData(null);
-  }, []);
-
-  const fetchData = async (token) => {
-    setLoading(true);
-    try {
-      const response = await axios.post(
-        URL,
-        {
-          query: `query ListStudentDevs($limit: Int, $nextToken: String) {
+const gqlQuery = `query ListStudentDevs($limit: Int, $nextToken: String) {
             listStudentDevs(limit: $limit, nextToken: $nextToken) {
               items {
                 id
@@ -61,7 +46,30 @@ const StudentTable = ({ isMiniTable = false }) => {
               }
               nextToken
             }
-          }`,
+          }`;
+
+const StudentListPage = ({ isMiniTable = false }) => {
+  const { authToken } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const [students, setStudents] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [nextToken, setNextToken] = useState(null);
+  const [prevTokens, setPrevTokens] = useState([]);
+  const [page, setPage] = useState(1);
+  const [pageSize] = useState(isMiniTable ? 5 : 8);
+
+  useEffect(() => {
+    fetchData(null);
+  }, []);
+
+  const fetchData = async (token) => {
+    setLoading(true);
+    try {
+      const response = await axios.post(
+        API_URL,
+        {
+          query: gqlQuery,
           variables: {
             limit: pageSize,
             nextToken: token,
@@ -112,8 +120,25 @@ const StudentTable = ({ isMiniTable = false }) => {
     );
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h1>Student List</h1>
+    <div style={{ padding: isMiniTable ? "2px" : "20px" }}>
+      <Box display="flex" justifyContent="space-between">
+        <h2>
+          {!isMiniTable && <ArrowBackIcon onClick={() => navigate("/")} />}{" "}
+          Student List
+        </h2>
+        {isMiniTable ? (
+          <Link style={{ color: "#1922E4" }} href="/students">
+            View More
+          </Link>
+        ) : (
+          <Pagination
+            nextToken={nextToken}
+            page={page}
+            handleNext={handleNext}
+            handlePrevious={handlePrevious}
+          />
+        )}
+      </Box>
       <TableContainer component={Paper}>
         <Table {...getTableProps()} border="1">
           <TableHead>
@@ -125,11 +150,15 @@ const StudentTable = ({ isMiniTable = false }) => {
                   >
                     {column.render("Header")}
                     <span>
-                      {column.isSorted
-                        ? column.isSortedDesc
-                          ? " 🔽"
-                          : " 🔼"
-                        : ""}
+                      {column.isSorted ? (
+                        column.isSortedDesc ? (
+                          <ArrowDropDownIcon />
+                        ) : (
+                          <ArrowDropUpIcon />
+                        )
+                      ) : (
+                        ""
+                      )}
                     </span>
                   </TableCell>
                 ))}
@@ -137,9 +166,9 @@ const StudentTable = ({ isMiniTable = false }) => {
             ))}
           </TableHead>
           {loading ? (
-            <p>...Loading</p>
+            <Loading columnLength={columns.length} />
           ) : (
-            <TableBody {...getTableBodyProps()}>
+            <TableBody style={{ height: 500 }} {...getTableBodyProps()}>
               {rows.map((row) => {
                 prepareRow(row);
                 return (
@@ -154,27 +183,10 @@ const StudentTable = ({ isMiniTable = false }) => {
               })}
             </TableBody>
           )}
-          {isMiniTable && (
-            <TableFooter onClick={() => navigate("/students")}>
-              View More
-            </TableFooter>
-          )}
         </Table>
-
-        {!isMiniTable && (
-          <div>
-            <button onClick={handlePrevious} disabled={page === 1}>
-              Previous
-            </button>
-            <span> Page {page} </span>
-            <button onClick={handleNext} disabled={!nextToken}>
-              Next
-            </button>
-          </div>
-        )}
       </TableContainer>
     </div>
   );
 };
 
-export default StudentTable;
+export default StudentListPage;

@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
 import Paper from "@mui/material/Paper";
+import { useAuthenticator } from "@aws-amplify/ui-react";
+import React from "react";
 
-import StudentTable from "./StudentTable";
-
-const MiniStudentTable = () => {
+const Profile = () => {
+  const { user } = useAuthenticator();
   return (
     <Paper
       elevation={3}
@@ -14,9 +14,10 @@ const MiniStudentTable = () => {
         borderRadius: 2,
       }}
     >
-      <StudentTable isMiniTable />
+      <h2>Profile</h2>
+      <p>Name: {user.username}</p>
     </Paper>
   );
 };
 
-export default MiniStudentTable;
+export default Profile;

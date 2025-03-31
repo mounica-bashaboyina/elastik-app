@@ -1,7 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
-import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import awsconfig from "./aws-exports";
 import { Authenticator } from "@aws-amplify/ui-react";
@@ -10,6 +9,7 @@ import { BrowserRouter } from "react-router-dom";
 
 import "@aws-amplify/ui-react/styles.css";
 import { AuthProvider } from "./AuthContext";
+import LayoutPage from "./pages/LayoutPage";
 
 Amplify.configure(awsconfig);
 
@@ -18,7 +18,7 @@ root.render(
   <BrowserRouter>
   <Authenticator>
     <AuthProvider>
-      <App />
+      <LayoutPage />
     </AuthProvider>
   </Authenticator>
   </BrowserRouter>

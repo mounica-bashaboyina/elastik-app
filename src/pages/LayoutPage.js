@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import { useAuthenticator } from "@aws-amplify/ui-react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -7,16 +6,15 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
+import React, { useState } from "react";
 
-import AppRoutes from "./AppRoutes";
-import SideNav from "./pages/SideNav";
+import AppRoutes from "../AppRoutes";
+import SideNav from "../components/SideNav";
 
-const App = () => {
-  const { username, signOut } = useAuthenticator();
+const LayoutPage = () => {
+  const { signOut } = useAuthenticator();
 
   const [openDrawer, setOpenDrawer] = useState(false);
-
-  console.log(openDrawer);
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -44,11 +42,11 @@ const App = () => {
         </Toolbar>
       </AppBar>
       <Box>
-        <SideNav openDrawer={openDrawer} onClose={() => setOpenDrawer(false)}/>
+        <SideNav openDrawer={openDrawer} onClose={() => setOpenDrawer(false)} />
         <AppRoutes />
       </Box>
     </Box>
   );
 };
 
-export default App;
+export default LayoutPage;
