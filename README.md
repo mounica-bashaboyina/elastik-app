@@ -6,65 +6,71 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 In the project directory, you can run:
 
-### `npm start`
+### To launch the project
+```sh
+npm start
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### To Run Tests
+```sh
+npm test
+```
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Deployment
 
-### `npm test`
+The project is integrated with Git. Upon committing to the `main` branch, deployment will be triggered automatically. Otherwise, you can manually deploy using the following steps:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```sh
+amplify push   # Push changes to the cloud
+amplify publish   # Initiate deployment
+```
 
-### `npm run build`
+## Project Configuration
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+This project was created using `create-react-app`. The backend setup followed these steps:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+1. **IAM User Setup**: Created an IAM user and configured AWS CLI with the required policies.
+2. **Installed AWS CLI & Amplify**: Ensured necessary dependencies were installed.
+3. **Configured Cognito User Pool**: Set up Cognito for user authentication.
+4. **Initialized Amplify**: Used `amplify init` to create the Amplify project structure.
+5. **Added Authentication**: `amplify add auth` to enable authentication.
+6. **Created API**:
+   - `amplify add api` to set up a REST API.
+   - Integrated a DynamoDB table named `students`.
+7. Loded mock data into dynamo db using loadStudents scripts. 
+8. **GraphQL API Setup**: Switched to GraphQL due to authorization issues with REST API.
+9. **Continuous Deployment**: Integrated Git repository with Amplify for automated deployments.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Challenges Faced
 
-### `npm run eject`
+Initially, the REST API encountered authentication issues, returning `unauthorized` or `404` errors despite providing the correct token. After debugging, the suspected issue was improper IAM role permissions for DynamoDB access. Even after granting access, the errors persisted, leading to a switch to GraphQL API - which did not pose much issues compared to rest-api.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## What Could Have Been Done Better
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+1. Instead of spending time on adding APIs or creating the backend using amplify, could have created a own node server and woudld have deployed to aws using aws beanstalk.
+2. Using a custom backend with AWS SDK libraries would have provided more flexibility to implement custom authentication handlers.
+3. This approach would have allowed more control over APIs, enabling better customization.
+4. Deployment issues could have been identified more easily, especially IAM role-related execution issues. A single IAM role with the required policies could have been used across the project instead of using auto-created roles.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Implemented Features
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+1. **Dashboard Page**: Displays user profile and student list.
+2. **Student List Page**:
+   - Implements a React table with backend pagination.
+   - Fetches student data from DynamoDB.
 
-## Learn More
+## TODOs
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+1. **Testing**: Add test coverage for the Dashboard and Student List pages.
+2. **Code Refactoring**: Improve component structure and optimize performance.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Deployment URL
 
-### Code Splitting
+You can access the application at:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+[Live Application](https://main.d3nnutv8kn83vk.amplifyapp.com/)
 
-### Analyzing the Bundle Size
+**Note**: You need to create an account and sign in to use the application.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+A test account will be provided in the future and attached to this README.
 
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
