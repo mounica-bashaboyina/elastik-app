@@ -1,83 +1,93 @@
-import React, { useState, useEffect } from "react";
-import { useTable, useSortBy, usePagination } from "react-table";
+import React, { useContext, useState, useEffect } from "react";
+import { useTable, useSortBy } from "react-table";
 import axios from "axios";
+import { AuthContext } from "./AuthContext";
 
 const columns = [
-  {
-    Header: "Email",
-    accessor: "email",
-  },
-  {
-    Header: "First Name",
-    accessor: "firstName",
-  },
-  {
-    Header: "Last Name",
-    accessor: "lastName",
-  },
-  {
-    Header: "DOB",
-    accessor: "dob",
-  },
-  {
-    Header: "School Name",
-    accessor: "schoolName",
-  },
-  {
-    Header: "School Coordinator",
-    accessor: "coordinator",
-  },
-  {
-    Header: "School Teacher",
-    accessor: "teacher",
-  },
+  { Header: "Email", accessor: "email" },
+  { Header: "First Name", accessor: "firstName" },
+  { Header: "Last Name", accessor: "lastName" },
+  { Header: "DOB", accessor: "dob" },
+  { Header: "School Name", accessor: "schoolName" },
+  { Header: "School Coordinator", accessor: "coordinator" },
+  { Header: "School Teacher", accessor: "teacher" },
 ];
 
+const URL = "https://44kaila63nhyxf267maw6iacuq.appsync-api.ap-southeast-2.amazonaws.com/graphql";
+
 const StudentTable = () => {
+  const { authToken } = useContext(AuthContext);
+
   const [students, setStudents] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [totalCount, setTotalCount] = useState(0); // To store the total count of students
-  const [pageIndex, setPageIndex] = useState(0);
-  const [pageSize] = useState(20); // Page size
+  const [loading, setLoading] = useState(false);
+  const [nextToken, setNextToken] = useState(null);
+  const [prevTokens, setPrevTokens] = useState([]);
+  const [page, setPage] = useState(1);
+  const [pageSize] = useState(20);
 
   useEffect(() => {
-    fetchData(pageIndex, pageSize);
-  }, [pageIndex, pageSize]);
+    fetchData(null);
+  }, []);
 
-  const fetchData = async (page, size) => {
+  const fetchData = async (token) => {
     setLoading(true);
-    const response = await axios.post(
-      "https://44kaila63nhyxf267maw6iacuq.appsync-api.ap-southeast-2.amazonaws.com/graphql",
-      {
-        query: `query ListStudentDevs($limit: Int, $nextToken: String) {
-          listStudentDevs(limit: $limit, nextToken: $nextToken) {
-            items {
-              id
-              email
-              firstName
-              lastName
-              dob
-              schoolName
-              coordinator
-              teacher
+    try {
+      const response = await axios.post(
+        URL,
+        {
+          query: `query ListStudentDevs($limit: Int, $nextToken: String) {
+            listStudentDevs(limit: $limit, nextToken: $nextToken) {
+              items {
+                id
+                email
+                firstName
+                lastName
+                dob
+                schoolName
+                coordinator
+                teacher
+              }
+              nextToken
             }
-          }
-        }`,
-        variables: {
-          limit: size,
+          }`,
+          variables: {
+            limit: pageSize,
+            nextToken: token,
+          },
         },
-      },
-      {
-        headers: {
-          "x-api-key": "da2-3cj6ioxoundf5f35kccqmr2s4a", // API key for authentication
-        },
-      }
-    );
+        {
+          headers: { Authorization: authToken },
+        }
+      );
 
-    const { items, totalCount } = response.data.data.listStudentDevs;
-    setStudents(items);
-    setTotalCount(totalCount); // Set the total count
-    setLoading(false);
+      const { items, nextToken: newToken } = response.data.data.listStudentDevs;
+      setStudents(items);
+      setNextToken(newToken);
+
+      if (token && !prevTokens.includes(token)) {
+        setPrevTokens((prev) => [...prev, token]);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleNext = () => {
+    if (nextToken) {
+      setPage((prev) => prev + 1);
+      fetchData(nextToken);
+    }
+  };
+
+  const handlePrevious = () => {
+    if (prevTokens.length > 0) {
+      const prevToken = prevTokens[prevTokens.length - 2] || null;
+      setPrevTokens((prev) => prev.slice(0, -1));
+      setPage((prev) => Math.max(prev - 1, 1));
+      fetchData(prevToken);
+    }
   };
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
@@ -85,16 +95,9 @@ const StudentTable = () => {
       {
         columns,
         data: students,
-        initialState: {
-          pageIndex: 0,
-          pageSize: 20,
-        },
       },
-      useSortBy,
-      usePagination
+      useSortBy
     );
-
-  const pageCount = Math.ceil(totalCount / pageSize); // Total pages
 
   return (
     <div>
@@ -107,9 +110,7 @@ const StudentTable = () => {
               {headerGroups.map((headerGroup) => (
                 <tr {...headerGroup.getHeaderGroupProps()}>
                   {headerGroup.headers.map((column) => (
-                    <th
-                      {...column.getHeaderProps(column.getSortByToggleProps())}
-                    >
+                    <th {...column.getHeaderProps(column.getSortByToggleProps())}>
                       {column.render("Header")}
                       <span>
                         {column.isSorted
@@ -128,11 +129,9 @@ const StudentTable = () => {
                 prepareRow(row);
                 return (
                   <tr {...row.getRowProps()}>
-                    {row.cells.map((cell) => {
-                      return (
-                        <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
-                      );
-                    })}
+                    {row.cells.map((cell) => (
+                      <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
+                    ))}
                   </tr>
                 );
               })}
@@ -140,19 +139,11 @@ const StudentTable = () => {
           </table>
 
           <div>
-            <button
-              onClick={() => setPageIndex(pageIndex - 1)}
-              disabled={pageIndex === 0}
-            >
+            <button onClick={handlePrevious} disabled={page === 1}>
               Previous
             </button>
-            <span>
-              Page {pageIndex + 1} of {pageCount}
-            </span>
-            <button
-              onClick={() => setPageIndex(pageIndex + 1)}
-              disabled={pageIndex === pageCount - 1}
-            >
+            <span> Page {page} </span>
+            <button onClick={handleNext} disabled={!nextToken}>
               Next
             </button>
           </div>
