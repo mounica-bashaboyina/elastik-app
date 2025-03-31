@@ -3,6 +3,14 @@ import { useTable, useSortBy } from "react-table";
 import axios from "axios";
 import { AuthContext } from "./AuthContext";
 
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+
 const columns = [
   { Header: "Email", accessor: "email" },
   { Header: "First Name", accessor: "firstName" },
@@ -13,7 +21,8 @@ const columns = [
   { Header: "School Teacher", accessor: "teacher" },
 ];
 
-const URL = "https://44kaila63nhyxf267maw6iacuq.appsync-api.ap-southeast-2.amazonaws.com/graphql";
+const URL =
+  "https://44kaila63nhyxf267maw6iacuq.appsync-api.ap-southeast-2.amazonaws.com/graphql";
 
 const StudentTable = () => {
   const { authToken } = useContext(AuthContext);
@@ -23,7 +32,7 @@ const StudentTable = () => {
   const [nextToken, setNextToken] = useState(null);
   const [prevTokens, setPrevTokens] = useState([]);
   const [page, setPage] = useState(1);
-  const [pageSize] = useState(20);
+  const [pageSize] = useState(10);
 
   useEffect(() => {
     fetchData(null);
@@ -100,55 +109,60 @@ const StudentTable = () => {
     );
 
   return (
-    <div>
-      {loading ? (
-        <p>Loading...</p>
-      ) : (
-        <>
-          <table {...getTableProps()} border="1">
-            <thead>
-              {headerGroups.map((headerGroup) => (
-                <tr {...headerGroup.getHeaderGroupProps()}>
-                  {headerGroup.headers.map((column) => (
-                    <th {...column.getHeaderProps(column.getSortByToggleProps())}>
-                      {column.render("Header")}
-                      <span>
-                        {column.isSorted
-                          ? column.isSortedDesc
-                            ? " 🔽"
-                            : " 🔼"
-                          : ""}
-                      </span>
-                    </th>
-                  ))}
-                </tr>
-              ))}
-            </thead>
-            <tbody {...getTableBodyProps()}>
+    <div style={{ padding: "20px" }}>
+      <h1>Student List</h1>
+      <TableContainer component={Paper}>
+        <Table {...getTableProps()} border="1">
+          <TableHead>
+            {headerGroups.map((headerGroup) => (
+              <TableRow {...headerGroup.getHeaderGroupProps()}>
+                {headerGroup.headers.map((column) => (
+                  <TableCell
+                    {...column.getHeaderProps(column.getSortByToggleProps())}
+                  >
+                    {column.render("Header")}
+                    <span>
+                      {column.isSorted
+                        ? column.isSortedDesc
+                          ? " 🔽"
+                          : " 🔼"
+                        : ""}
+                    </span>
+                  </TableCell>
+                ))}
+              </TableRow>
+            ))}
+          </TableHead>
+          {loading ? (
+            <p>...Loading</p>
+          ) : (
+            <TableBody {...getTableBodyProps()}>
               {rows.map((row) => {
                 prepareRow(row);
                 return (
-                  <tr {...row.getRowProps()}>
+                  <TableRow {...row.getRowProps()}>
                     {row.cells.map((cell) => (
-                      <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
+                      <TableCell {...cell.getCellProps()}>
+                        {cell.render("Cell")}
+                      </TableCell>
                     ))}
-                  </tr>
+                  </TableRow>
                 );
               })}
-            </tbody>
-          </table>
+            </TableBody>
+          )}
+        </Table>
 
-          <div>
-            <button onClick={handlePrevious} disabled={page === 1}>
-              Previous
-            </button>
-            <span> Page {page} </span>
-            <button onClick={handleNext} disabled={!nextToken}>
-              Next
-            </button>
-          </div>
-        </>
-      )}
+        <div>
+          <button onClick={handlePrevious} disabled={page === 1}>
+            Previous
+          </button>
+          <span> Page {page} </span>
+          <button onClick={handleNext} disabled={!nextToken}>
+            Next
+          </button>
+        </div>
+      </TableContainer>
     </div>
   );
 };
