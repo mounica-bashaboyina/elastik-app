@@ -15,7 +15,7 @@ const Profile = () => {
       }}
     >
       <h2>Profile</h2>
-      <p>Name: {user.username}</p>
+      <p>Name: {user?.username}</p>
     </Paper>
   );
 };
