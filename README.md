@@ -70,6 +70,8 @@ You can access the application at:
 
 [Live Application](https://main.d3nnutv8kn83vk.amplifyapp.com/)
 
+[App Demo](https://drive.google.com/file/d/1jhuSb0samCGih3UmMecerElQgEVcz22R/view)
+
 **Note**: You need to create an account and sign in to use the application.
 
 A test account will be provided in the future and attached to this README.
