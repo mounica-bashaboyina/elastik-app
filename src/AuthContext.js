@@ -10,7 +10,6 @@ export const AuthProvider = ({ children }) => {
     const fetchAuthToken = async () => {
       try {
         const session = await fetchAuthSession();
-        console.log("sessio token", session.tokens.accessToken.toString())
         setAuthToken(session.tokens.accessToken.toString());
       } catch (error) {
         console.error("Error fetching auth token:", error);
